@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+        }
+        .calculator{
+            background-color: rgb(20, 24, 31);
+            /* padding: 20px; */
+            border-radius: 20px;
+            width: 300px;
+            height: 500px;
+            overflow: hidden;
+        }
+        .display{
+            /* min-height: 200px; */
+            height: 30%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: flex-end;
+            color: white;
+            /* background-color: blue; */
+            flex: 1 1 0%;
+            font-weight: 700;
+            padding: 20px;
+        }
+        .display .input{
+            font-size: 20px;
+            /* background-color: blue; */
+        }
+        .display .output{
+            font-size: 40px;
+        }
+        .button{
+            border-radius: 20px;
+            box-shadow: 0 0 30px;
+            min-height: 200px;
+            display: grid;
+            grid-template-rows: repeat(5, 1fr);
+            grid-template-columns: repeat(4, 1fr);
+            /* background-color: red; */
+            background-color: rgb(27, 32, 41);
+            padding: 20px;
+            gap: 10px;
+            height: 70%;
+        }
+        button{
+            font-size: 25px;
+            padding: 5px;
+            font-weight: 700;
+            background-color: rgb(20, 23, 29);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            /* aspect-ratio: 1/1; */
+        }
+        .operator{
+            color: rgb(252, 67, 113);
+        }
+        .action{
+            color: aqua;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="calculator">
+       <div class="display">
+            <div class="input">190 <span class="operator">+</span> 200</div>
+            <div class="output">30, 000</div>
+       </div>
+        <div class="button">
+            <button class="key action" data-key="clear">AC</button>
+            <button class="key action" data-key="brackets">( )</button>
+            <button class="key action" data-key="%">%</button>
+            <button class="key operator" data-key="/">&divide</button>
+            <button class="key number" data-key="7">7</button>
+            <button class="key number" data-key="8">8</button>
+            <button class="key number" data-key="9">9</button>
+            <button class="key operator" data-key="*">x</button>
+            <button class="key number" data-key="4">4</button>
+            <button class="key number" data-key="5">5</button>
+            <button class="key number" data-key="6">6</button>
+            <button class="key operator" data-key="-">-</button>
+            <button class="key number" data-key="1">1</button>
+            <button class="key number" data-key="2">2</button>
+            <button class="key number" data-key="3">3</button>
+            <button class="key operator" data-key="+">+</button>
+            <button class="key action" data-key="backspace"><</button>
+            <button class="key number" data-key="0">0</button>
+            <button class="key number" data-key=".">.</button>
+            <button class="key action" data-key="equal">=</button>
+        </div>
+    </main>
+
+    <script>
+        const buttons = document.querySelectorAll(".key"); 
+        const display_input = document.querySelector(".input"); 
+        const display_output = document.querySelector(".output"); 
+
+        let input = " "
+        for(let key of buttons){
+            const value = key.dataset.key
+            console.log(value)
+            key.addEventListener("click", () => {
+
+                if(value == "clear"){
+                    input = ""
+                    display_input.innerHTML = input
+                    display_output.innerHTML = input
+                }else if (value == "backspace"){
+                    input = input.slice(0 , -1)
+                    display_input.innerHTML = input
+                }else if (value == "equal" ){
+                    let result = eval(input)
+                    display_output.innerHTML = result
+                }else if (value == "brackets"){
+                  console.log(input.indexOf(")"))
+                }
+                else{
+                    if(validateInput(value)){
+                        input += value
+                        display_input.innerHTML = input
+                    }
+                }
+                
+            })
+            
+        }
+
+        
+        function validateInput (value){
+            const lastInput = input.split("")[input.length - 1]
+            const firstInput = input.split("")[0]
+            const operators = ["+", "*", "-", "/", "%"]
+
+            if(value == "." && lastInput === "."){
+                return false 
+            }
+            
+            if(input == "" && operators.includes(value)){
+                return false
+            }
+
+            if(operators.includes(value) && operators.includes(lastInput)){
+                return false
+            }
+
+            if(value === '/'){
+                input += ` <span>&divide</span> `
+            }
+
+           
+
+
+            return true
+            
+        }
+        
+    </script>
+
+
+</body>
+</html>

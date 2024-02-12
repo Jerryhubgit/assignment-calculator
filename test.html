@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+</head>
+<body>
+    <h2>Calculator</h2>
+    <input type="text" id="inputField" readonly>
+    <br><br>
+    <button onclick="appendToInput('1')">1</button>
+    <button onclick="appendToInput('2')">2</button>
+    <button onclick="appendToInput('3')">3</button>
+    <button onclick="appendToInput('+')">+</button>
+    <br><br>
+    <button onclick="appendToInput('4')">4</button>
+    <button onclick="appendToInput('5')">5</button>
+    <button onclick="appendToInput('6')">6</button>
+    <button onclick="appendToInput('-')">-</button>
+    <br><br>
+    <button onclick="appendToInput('7')">7</button>
+    <button onclick="appendToInput('8')">8</button>
+    <button onclick="appendToInput('9')">9</button>
+    <button onclick="appendToInput('*')">*</button>
+    <br><br>
+    <button onclick="appendToInput('0')">0</button>
+    <button onclick="appendToInput('.')">.</button>
+    <button onclick="calculate()">=</button>
+    <button onclick="appendToInput('/')">/</button>
+    <br><br>
+    <button onclick="clearInput()">C</button>
+    
+    <script>
+        let inputField = document.getElementById('inputField');
+
+        function appendToInput(value) {
+            // Get the current input value
+            let currentValue = inputField.value;
+            
+            // If the input is empty and the value is an operator, don't append
+            if (currentValue == "" && "+-*/".includes(value)) {
+                return;
+            }
+            
+            // If the last character is an operator and the new value is an operator, don't append
+            if ("+-*/".includes(currentValue[currentValue.length - 1]) && "+-*/".includes(value)) {
+                return;
+            }
+
+            if(value === "." && currentValue[currentValue.length - 1 ] === "."){
+                return 
+            }
+            
+            // Otherwise, append the value to the input field
+            inputField.value += value;
+        }
+
+        
+
+        function calculate() {
+            // Get the expression from the input field
+            let expression = inputField.value;
+            
+            // Try evaluating the expression
+            try {
+                // Evaluate the expression using eval function (Unsafe, but used here for simplicity)
+                let result = eval(expression);
+                
+                // Display the result
+                inputField.value = result;
+            } catch (error) {
+                // If there's an error, display "Error"
+                inputField.value = "Error";
+            }
+        }
+
+        function clearInput() {
+            // Clear the input field
+            inputField.value = '';
+        }
+    </script>
+</body>
+</html>
